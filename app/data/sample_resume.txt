@@ -1,0 +1,21 @@
+Alex Candidate
+alex.candidate@example.com | +1 555 555 0100
+
+Summary
+Backend/Full Stack engineer with experience building Python services and cloud-native tooling.
+
+Skills
+Python, Django, FastAPI, Postgres, Redis, AWS, Docker, Kubernetes, React, TypeScript, CI/CD
+
+Experience
+- Built and maintained Django and FastAPI services processing millions of requests per day on AWS.
+- Designed Postgres schemas, caching with Redis, and messaging with Kafka.
+- Dockerized services and deployed with Kubernetes; implemented CI/CD pipelines.
+- Collaborated with front-end engineers to deliver React components for internal dashboards.
+
+Projects
+- Personal portfolio using React + FastAPI deployed to AWS with Terraform.
+- ML side project using PyTorch with model serving behind a FastAPI API.
+
+Education
+B.S. in Computer Science

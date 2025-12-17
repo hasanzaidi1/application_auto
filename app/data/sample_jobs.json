@@ -1,0 +1,29 @@
+[
+  {
+    "id": "job-001",
+    "title": "Backend Engineer",
+    "company": "Acme Corp",
+    "location": "Remote - US",
+    "platform": "mockboard",
+    "url": "https://jobs.example.com/backend",
+    "description": "We are seeking a Backend Engineer with strong Python, Django or FastAPI experience. AWS, Docker, and Postgres are core to our stack. Remote across the United States."
+  },
+  {
+    "id": "job-002",
+    "title": "Full Stack Engineer",
+    "company": "Northwind",
+    "location": "Hybrid - New York, NY",
+    "platform": "mockboard",
+    "url": "https://jobs.example.com/fullstack",
+    "description": "Looking for a Full Stack Engineer comfortable with React, TypeScript, and backend services in Python. Experience with AWS, Redis, and CI/CD pipelines is a plus."
+  },
+  {
+    "id": "job-003",
+    "title": "Machine Learning Engineer",
+    "company": "Contoso AI",
+    "location": "Remote",
+    "platform": "mockboard",
+    "url": "https://jobs.example.com/ml",
+    "description": "Role focused on ML services using PyTorch and Kubernetes. Prior experience deploying models to cloud (AWS or GCP), and working with data pipelines (Kafka, Postgres) is desired."
+  }
+]

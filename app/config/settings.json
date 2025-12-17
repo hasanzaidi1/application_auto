@@ -1,0 +1,9 @@
+{
+  "target_locations": ["Remote", "United States"],
+  "target_titles": ["Software Engineer", "Backend Engineer", "Full Stack Engineer"],
+  "required_skills": ["python", "django", "fastapi", "aws"],
+  "optional_skills": ["docker", "kubernetes", "react", "postgres", "redis"],
+  "throttle_seconds": 2.0,
+  "review_mode": false,
+  "min_score": 0.45
+}

@@ -1,0 +1,10 @@
+Dear {COMPANY} Hiring Team,
+
+I am excited to apply for the {JOB_TITLE} role. My background includes building production services with {SKILLS}, with recent work that closely aligns to this position.
+
+One example that demonstrates fit: {HIGHLIGHT}.
+
+I appreciate your consideration and would welcome the chance to discuss how I can contribute to your team.
+
+Best regards,
+Alex Candidate

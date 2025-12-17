@@ -1,0 +1,10 @@
+Dear Northwind Hiring Team,
+
+I am excited to apply for the Full Stack Engineer role. My background includes building production services with aws, django, docker, fastapi, go, kafka, with recent work that closely aligns to this position.
+
+One example that demonstrates fit: - Personal portfolio using React + FastAPI deployed to AWS with Terraform..
+
+I appreciate your consideration and would welcome the chance to discuss how I can contribute to your team.
+
+Best regards,
+Alex Candidate
