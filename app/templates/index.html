@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Auto Apply Dashboard</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --accent: #22d3ee;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #1e293b, #0f172a 60%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+    }
+    .shell {
+      width: 1100px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      padding: 24px 28px 32px;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.35);
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .title { font-size: 24px; font-weight: 700; }
+    .pill { padding: 6px 12px; border-radius: 999px; background: rgba(34, 211, 238, 0.14); color: var(--accent); border: 1px solid rgba(34,211,238,0.4); font-weight: 600; }
+    form {
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr;
+      gap: 14px 16px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+    label { font-size: 13px; color: var(--muted); display: block; margin-bottom: 4px; }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      background: #0b1220;
+      color: var(--text);
+    }
+    input[type="file"] {
+      color: var(--muted);
+    }
+    .checkbox { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+    .actions { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; }
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 16px;
+      background: linear-gradient(120deg, #22d3ee, #0ea5e9);
+      color: #0b1220;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: none;
+      border: 1px solid #1f2937;
+      color: var(--text);
+    }
+    .panel {
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 18px;
+      background: #0b1220;
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { text-align: left; padding: 8px 6px; font-size: 14px; }
+    th { color: var(--muted); font-weight: 600; border-bottom: 1px solid #1f2937; }
+    tr:nth-child(even) td { background: #0f172a; }
+    .badge { padding: 4px 10px; border-radius: 999px; font-size: 12px; }
+    .score { background: rgba(34, 211, 238, 0.14); color: var(--accent); }
+    .status { background: rgba(34,197,94,0.15); color: #34d399; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .flash { color: #f87171; margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="title">Auto Apply Dashboard</div>
+      <div class="pill">Upload · Match · Apply</div>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <div class="flash">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('submit') }}" method="post" enctype="multipart/form-data">
+      <div>
+        <label>Resume file (pdf/docx/txt)</label>
+        <input type="file" name="resume" required>
+      </div>
+      <div>
+        <label>Job listings JSON (optional)</label>
+        <input type="file" name="jobs" accept=".json">
+      </div>
+      <div>
+        <label>Min score</label>
+        <input type="number" name="min_score" step="0.05" value="{{ '%.2f'|format(prefs.min_score) }}">
+      </div>
+
+      <div>
+        <label>Target titles (comma separated)</label>
+        <input type="text" name="target_titles" value="{{ prefs.target_titles|join(', ') }}">
+      </div>
+      <div>
+        <label>Target locations</label>
+        <input type="text" name="target_locations" value="{{ prefs.target_locations|join(', ') }}">
+      </div>
+      <div>
+        <label>Throttle seconds</label>
+        <input type="number" name="throttle_seconds" step="0.5" value="{{ '%.1f'|format(prefs.throttle_seconds) }}">
+      </div>
+
+      <div>
+        <label>Required skills</label>
+        <input type="text" name="required_skills" value="{{ prefs.required_skills|join(', ') }}">
+      </div>
+      <div>
+        <label>Optional skills</label>
+        <input type="text" name="optional_skills" value="{{ prefs.optional_skills|join(', ') }}">
+      </div>
+      <div class="checkbox">
+        <input type="checkbox" id="review_mode" name="review_mode" {% if prefs.review_mode %}checked{% endif %}>
+        <label for="review_mode">Review mode (log only; no prompt on web)</label>
+      </div>
+
+      <div class="actions">
+        <button type="submit" name="action" value="preview">Preview matches</button>
+        <button type="submit" name="action" value="apply">Apply to matches</button>
+        <span class="muted">Uploads are processed in-memory; matches above min score are applied.</span>
+      </div>
+    </form>
+
+    {% if matches %}
+    <div class="panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <div class="muted">Top matches for {{ resume_name or 'resume' }} (source: {{ jobs_name }})</div>
+        <div class="muted">{{ matches|length }} jobs evaluated</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>Score</th>
+            <th>Skill overlap</th>
+            {% if applications %}<th>Status</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for match in matches %}
+            <tr>
+              <td>{{ match.job.title }}</td>
+              <td>{{ match.job.company }}</td>
+              <td>{{ match.job.location }}</td>
+              <td><span class="badge score">{{ '%.2f'|format(match.score) }}</span></td>
+              <td class="muted">{{ match.breakdown.skill_overlap|join(', ') }}</td>
+              {% if applications %}
+                {% set applied = applications | selectattr("job_id", "equalto", match.job.id) | list %}
+                <td>
+                  {% if applied %}
+                    <span class="badge status">applied</span>
+                  {% else %}
+                    <span class="muted">skipped</span>
+                  {% endif %}
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>

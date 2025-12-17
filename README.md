@@ -30,3 +30,9 @@ Extending toward the full system
 - Enhance matching with embeddings (SentenceTransformers/OpenAI) and richer heuristics.
 - Add resume tailoring variants (selectable project bullets, skill reordering) and file generation (docx/pdf) if uploads are required.
 - Harden credential handling with a keychain/secret store and add a UI (Flask/FastAPI + React/Streamlit) for monitoring and manual approvals.
+
+Web UI
+- Install deps: `pip install -r requirements.txt`.
+- Run server: `FLASK_APP=app.web flask run` (or `python3 -m flask --app app.web run`) then open http://127.0.0.1:5000.
+- Upload your resume (PDF/DOCX/TXT) and optional jobs JSON; tweak titles/locations/skills/min score; click “Preview matches” or “Apply to matches”.
+- Applications use the same mock flow as the CLI; replace `MockScraper` with real scrapers to hit live boards.
